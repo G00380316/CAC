@@ -2,7 +2,7 @@
 
 ***This Repository is meant for the use of Cac Vinyard of Comfort members in
 Galway. It was made to track the impletation of an Web Application that will be
-hosted on Github Pages if all goes well.
+hosted on Github Pages/Vercel if all goes well.
 
 #### [User Persona]
 
