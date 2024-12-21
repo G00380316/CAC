@@ -11,7 +11,7 @@ export async function GET() {
 
         return NextResponse.json({ wft });
     } catch (error) {
-        console.log(error);
+        //console.log(error);
         return NextResponse.json({ error })
     }
 }

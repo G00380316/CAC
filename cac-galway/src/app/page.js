@@ -5,7 +5,6 @@ import { Box, Grid, Typography } from '@mui/joy'
 import styles from './page.module.css'
 import Content from '@/components/Content.js'
 
-//useEffect(()=>{},[])
 
 export default function Home() {
     return (
@@ -28,8 +27,14 @@ export default function Home() {
                     <Typography
                         level='title-lg'
                         fontSize={24}
-                        sx={{ color: "black" }}
-                        marginTop={1}>
+                        sx={{
+                            color: "black",
+                            fontFamily: "'Roboto,sans -serif"
+                        }}
+                        marginTop={1}
+                        alignSelf={'center'}
+                        justifySelf={'center'}
+                    >
                         CAC Study Material
                     </Typography>
                 </Box>
