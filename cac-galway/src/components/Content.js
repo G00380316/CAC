@@ -47,7 +47,7 @@ const getDataDate = (data_date) => {
 
     const newCreatedAt = data_date.split('T')[0];
 
-    console.log("Mongodb", newCreatedAt);
+    //console.log("Mongodb", newCreatedAt);
 
     return newCreatedAt;
 }
@@ -87,7 +87,7 @@ export default function Content() {
                     const res = await fetch('http://localhost:5000/webscrape/wft');
                     const data = await res.json();
 
-                    console.log("Here", data)
+                    //console.log("Here", data)
 
                     if (res.ok) {
                         setLoading(false);
@@ -100,7 +100,7 @@ export default function Content() {
                     }
                 }
             } catch (err) {
-                console.error("Fetch Error:", err);
+                //console.error("Fetch Error:", err);
                 setError(true);
             }
         };
@@ -109,7 +109,7 @@ export default function Content() {
             try {
                 const response = await fetch('/api/getSS')
                 const storedData = await response.json()
-                console.log(storedData)
+                //console.log(storedData)
 
                 if (storedData.sundaySchool) {
                     setLoading(false);
@@ -167,7 +167,7 @@ export default function Content() {
             direction={{ xs: 'row', sm: 'row', md: 'row' }}
             justifyContent={'center'}
             sx={Styles.root}
-            maxWidth={500}
+            maxWidth={{ sx: 500, sm: 500, md: 800 }}
         >
             <Grid
                 item
@@ -176,8 +176,7 @@ export default function Content() {
                 sm={12}  // Full width on small screens
                 padding={{ sm: 2, xs: 2, md: 1 }}
             >
-                <Stack spacing={1} maxWidth={500}>
-                    {/*<Typography level='body-md'>{text}</Typography>*/}
+                <Stack spacing={1} maxWidth={{ sx: 500, sm: 500, md: 800 }}>
                     <h2
                         dangerouslySetInnerHTML={{ __html: title }}
                         style={{
@@ -216,12 +215,11 @@ export default function Content() {
             </Grid>
             <Grid
                 item
-                xs={12}  // Full width on extra small screens
-                sm={12}  // Full width on small screens
+                xs={12}
+                sm={12}
                 padding={{ sm: 4, xs: 4, md: 1 }}
             >
-                <Stack spacing={1} maxWidth={500} >
-                    {/*<Typography level='body-md'>{text}</Typography>*/}
+                <Stack spacing={1} maxWidth={{ sx: 500, sm: 500, md: 800 }}>
                     <div
                         dangerouslySetInnerHTML={{ __html: ssTitle }}
                         style={{ color: 'black', marginTop: 40 }}
