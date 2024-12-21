@@ -117,7 +117,7 @@ export default function Content() {
                     setssTitle(storedData.sundaySchool.title);
                 }
 
-                if (storedData.error) {
+                if (!storedData.sundaySchool) {
 
                     const res = await fetch('http://localhost:5000/webscrape/ss');
                     const data = await res.json();
@@ -133,7 +133,6 @@ export default function Content() {
                 setError(true);
             }
         };
-
 
         fetchWFTData()
         fetchSSData()
@@ -165,56 +164,73 @@ export default function Content() {
     return (
         <Grid
             container
-            direction="row"
-            justifyItems={'center'}
+            direction={{ xs: 'row', sm: 'row', md: 'row' }}
+            justifyContent={'center'}
+            sx={Styles.root}
+            maxWidth={500}
         >
-            <Stack spacing={1} maxWidth={500} sx={Styles.root}>
-                {/*<Typography level='body-md'>{text}</Typography>*/}
-                <h2
-                    dangerouslySetInnerHTML={{ __html: title }}
-                    style={{
-                        marginTop: 40,
-                        alignSelf: 'center',
-                        color: 'black'
-                    }} />
-                <div
-                    dangerouslySetInnerHTML={{ __html: audio }}
-                    style={{ alignSelf: 'center' }}
-                />
-                <p
-                    dangerouslySetInnerHTML={{ __html: date }}
-                    style={{
-                        fontSize: 12, alignSelf: 'center', color: 'navy'
-                    }} />
-                <p
-                    dangerouslySetInnerHTML={{ __html: bibleRef }}
-                    style={{
-                        fontSize: 14, alignSelf: 'center', color: 'black'
-                    }} />
-                <p
-                    dangerouslySetInnerHTML={{ __html: byline }}
-                    style={{
-                        fontSize: 14,
-                        fontStyle: 'italic',
-                        alignSelf: 'center',
-                        color: 'blue'
-                    }} />
-                <p
-                    dangerouslySetInnerHTML={{ __html: text }}
-                    style={{}} />
-                <br />
-                <br />
-            </Stack>
-            <Stack marginLeft={10} spacing={1} maxWidth={500} sx={Styles.root}>
-                {/*<Typography level='body-md'>{text}</Typography>*/}
-                <div
-                    dangerouslySetInnerHTML={{ __html: ssTitle }}
-                    style={{ color: 'black', marginTop: 40 }}
-                />
-                <p
-                    dangerouslySetInnerHTML={{ __html: ssText }}
-                    style={{ color: 'black' }} />
-            </Stack>
+            <Grid
+                item
+                direction={{ md: 'row' }}
+                xs={12}  // Full width on extra small screens
+                sm={12}  // Full width on small screens
+                padding={{ sm: 2, xs: 2, md: 1 }}
+            >
+                <Stack spacing={1} maxWidth={500}>
+                    {/*<Typography level='body-md'>{text}</Typography>*/}
+                    <h2
+                        dangerouslySetInnerHTML={{ __html: title }}
+                        style={{
+                            marginTop: 40,
+                            alignSelf: 'center',
+                            color: 'black'
+                        }} />
+                    <div
+                        dangerouslySetInnerHTML={{ __html: audio }}
+                        style={{ alignSelf: 'center' }}
+                    />
+                    <p
+                        dangerouslySetInnerHTML={{ __html: date }}
+                        style={{
+                            fontSize: 12, alignSelf: 'center', color: 'navy'
+                        }} />
+                    <p
+                        dangerouslySetInnerHTML={{ __html: bibleRef }}
+                        style={{
+                            fontSize: 14, alignSelf: 'center', color: 'black'
+                        }} />
+                    <p
+                        dangerouslySetInnerHTML={{ __html: byline }}
+                        style={{
+                            fontSize: 14,
+                            fontStyle: 'italic',
+                            alignSelf: 'center',
+                            color: 'blue'
+                        }} />
+                    <p
+                        dangerouslySetInnerHTML={{ __html: text }}
+                        style={{}} />
+                    <br />
+                    <br />
+                </Stack>
+            </Grid>
+            <Grid
+                item
+                xs={12}  // Full width on extra small screens
+                sm={12}  // Full width on small screens
+                padding={{ sm: 4, xs: 4, md: 1 }}
+            >
+                <Stack spacing={1} maxWidth={500} >
+                    {/*<Typography level='body-md'>{text}</Typography>*/}
+                    <div
+                        dangerouslySetInnerHTML={{ __html: ssTitle }}
+                        style={{ color: 'black', marginTop: 40 }}
+                    />
+                    <p
+                        dangerouslySetInnerHTML={{ __html: ssText }}
+                        style={{ color: 'black' }} />
+                </Stack>
+            </Grid>
         </Grid>
 
     )

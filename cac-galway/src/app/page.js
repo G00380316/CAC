@@ -1,7 +1,7 @@
 "use client"
 
 import Image from 'next/image'
-import { Box, Typography } from '@mui/joy'
+import { Box, Grid, Typography } from '@mui/joy'
 import styles from './page.module.css'
 import Content from '@/components/Content.js'
 
@@ -34,7 +34,9 @@ export default function Home() {
                     </Typography>
                 </Box>
             </nav>
-            <Content />
+            <Grid justifyItems={'center'}>
+                <Content />
+            </Grid>
         </main>
     )
 }

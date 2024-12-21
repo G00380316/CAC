@@ -9,8 +9,6 @@ export async function GET() {
 
         const sundaySchool = await SundaySchool.findOne().sort({ createdAt: -1 });
 
-        if (SundaySchool == NULL) return NextResponse.error()
-
         return NextResponse.json({ sundaySchool });
     } catch (error) {
         console.log(error);
