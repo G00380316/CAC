@@ -84,7 +84,7 @@ export default function Content() {
                     setAudio(storedData.wft.audio);
                 } else {
 
-                    const res = await fetch('http://localhost:5000/webscrape/wft');
+                    const res = await fetch(process.env.SCRAPE_WFT);
                     const data = await res.json();
 
                     //console.log("Here", data)
@@ -119,7 +119,7 @@ export default function Content() {
 
                 if (!storedData.sundaySchool) {
 
-                    const res = await fetch('http://localhost:5000/webscrape/ss');
+                    const res = await fetch(process.env.SCRAPE_SS);
                     const data = await res.json();
 
                     if (res.ok) {
