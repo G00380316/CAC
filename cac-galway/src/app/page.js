@@ -20,12 +20,12 @@ export default function Home() {
                         src={"/CacGalwaylogo.jpg"}
                         alt='Cac Galway Logo'
                         className='{styles.vercelLogo}'
-                        width={125}
-                        height={125}
+                        width={75}
+                        height={75}
                         priority
                     />
                     <Typography
-                        level='title-lg'
+                        level='title-md'
                         fontSize={24}
                         sx={{
                             color: "black",
