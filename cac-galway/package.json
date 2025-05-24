@@ -8,6 +8,7 @@
         "lint": "next lint"
     },
     "dependencies": {
+        "@chakra-ui/counter": "^2.1.0",
         "@emotion/react": "^11.14.0",
         "@emotion/styled": "^11.14.0",
         "@mui/icons-material": "^6.2.0",

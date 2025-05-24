@@ -1,4 +1,5 @@
-import { Grid, Stack } from '@mui/joy';
+import { Grid, Stack, Typography } from '@mui/joy';
+import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
 import { LoadingButton } from "@mui/lab";
 import { useEffect, useState } from 'react';
 
@@ -51,7 +52,7 @@ const getDataDate = (data_date) => {
 
     return newCreatedAt;
 }
-export default function Content() {
+export default function Content({ count }) {
 
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
@@ -177,6 +178,9 @@ export default function Content() {
                 padding={{ sm: 2, xs: 2, md: 1 }}
             >
                 <Stack spacing={1} maxWidth={{ sx: 500, sm: 500, md: 800 }}>
+                    <Typography startDecorator={<RemoveRedEyeIcon fontSize='inherit' />} alignSelf={'left'}
+                        justifySelf={'left'} fontSize={12}
+                    >Todays Views: {count}</Typography>
                     <h2
                         dangerouslySetInnerHTML={{ __html: title }}
                         style={{
