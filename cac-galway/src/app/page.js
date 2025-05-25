@@ -75,6 +75,16 @@ export default function Home() {
                     const data = await res.json()
                     console.log(data)
                     setCount(data.counter.count);
+                } else {
+                    const res = await fetch('/api/createCount', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({ date: currentDate })
+                    })
+                    const data = await res.json()
+                    if (res.ok) { console.log(data) }
                 }
             } catch (err) {
                 console.error("Fetch Error:", err);
