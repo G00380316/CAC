@@ -1,4 +1,4 @@
-import { Grid, Stack, Typography } from '@mui/joy';
+import { Box, Button, Grid, Stack, Typography } from '@mui/joy';
 import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
 import { LoadingButton } from "@mui/lab";
 import { useEffect, useState } from 'react';
@@ -52,6 +52,7 @@ const getDataDate = (data_date) => {
 
     return newCreatedAt;
 }
+
 export default function Content({ count }) {
 
     const [loading, setLoading] = useState(true);
@@ -64,8 +65,10 @@ export default function Content({ count }) {
     const [bibleRef, setbibleRef] = useState("");
     const [byline, setByline] = useState("");
     const [audio, setAudio] = useState(null);
+    let [index, setIndex] = useState(1);
 
     let currentDate = getDate();
+    console.log(index)
 
     useEffect(() => {
         const fetchWFTData = async () => {
@@ -140,6 +143,36 @@ export default function Content({ count }) {
 
     }, [])
 
+    useEffect(() => {
+        const fetchNewWFT = async () => {
+            try {
+                const res = await fetch('/api/getWFTMod', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ index })
+                })
+                const storedData = await res.json()
+                console.log(storedData)
+
+                setLoading(false);
+                setText(storedData.wft.text);
+                setTitle(storedData.wft.title);
+                setDate(storedData.wft.date);
+                setbibleRef(storedData.wft.bibleRef);
+                setByline(storedData.wft.byline);
+                setAudio(storedData.wft.audio);
+
+            } catch (err) {
+                //console.error("Fetch Error:", err);
+                setError(true);
+            }
+        }
+
+        fetchNewWFT()
+    }, [index])
+
 
     if (loading && !text) {
         return (
@@ -177,14 +210,17 @@ export default function Content({ count }) {
                 sm={12}  // Full width on small screens
                 padding={{ sm: 2, xs: 2, md: 1 }}
             >
-                <Stack spacing={1} maxWidth={{ sx: 500, sm: 500, md: 800 }}>
-                    <Typography startDecorator={<RemoveRedEyeIcon fontSize='inherit' />} alignSelf={'left'}
-                        justifySelf={'left'} fontSize={12}
-                    >Todays Views: {count}</Typography>
+                <Stack spacing={1} mt={8} maxWidth={{ sx: 500, sm: 500, md: 800 }}>
+                    <Box display={'flex'} flexDirection={'row'} justifyContent={'space-between'} mt={40} >
+                        <Button variant='outlined' size='sm' onClick={() => setIndex(index++)}>prev</Button>
+                        <Typography startDecorator={<RemoveRedEyeIcon fontSize='inherit' />}
+                            fontSize={12}
+                        >Todays Views: {count}</Typography>
+                        <Button variant='outlined' size='sm' onClick={() => setIndex(index--)}>next</Button>
+                    </Box>
                     <h2
                         dangerouslySetInnerHTML={{ __html: title }}
                         style={{
-                            marginTop: 40,
                             alignSelf: 'center',
                             color: 'black'
                         }} />
