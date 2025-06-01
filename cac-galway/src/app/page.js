@@ -48,44 +48,16 @@ export default function Home() {
             fetchRan.current = true;
 
             try {
-                const response = await fetch('/api/getCount')
-                const storedData = await response.json()
-                if (!storedData.counter) {
-                    const res = await fetch('/api/createCount', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json'
-                        },
-                        body: JSON.stringify({ date: currentDate })
-                    })
-                    const data = await res.json()
-                    if (res.ok) { console.log(data) }
-                }
-
-                const currentDataDate = getDataDate(storedData.counter.createdAt)
-
-                if (currentDate === currentDataDate) {
-                    const res = await fetch('/api/updateCount', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json'
-                        },
-                        body: JSON.stringify({ date: currentDate })
-                    })
-                    const data = await res.json()
-                    console.log(data)
-                    setCount(data.counter.count);
-                } else {
-                    const res = await fetch('/api/createCount', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json'
-                        },
-                        body: JSON.stringify({ date: currentDate })
-                    })
-                    const data = await res.json()
-                    if (res.ok) { console.log(data) }
-                }
+                const res = await fetch('/api/updateCount', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ date: currentDate })
+                })
+                const data = await res.json()
+                // console.log(data)
+                setCount(data.counter.count);
             } catch (err) {
                 console.error("Fetch Error:", err);
                 setError(true);

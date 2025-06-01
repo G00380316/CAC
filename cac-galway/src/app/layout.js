@@ -7,6 +7,15 @@ const inter = Inter({ subsets: ['latin'] })
 export const metadata = {
     title: 'Cac Galway',
     description: 'Cac Galway where the happiest people worship',
+    openGraph: {
+        title: 'Cac Galway',
+        siteName: 'Cac Galway',
+        description: 'Cac Galway where the happiest people worship',
+    },
+    twitter: {
+        title: 'Cac Galway',
+    },
+    siteName: 'Cac Galway'
 }
 
 export default function RootLayout({ children }) {
