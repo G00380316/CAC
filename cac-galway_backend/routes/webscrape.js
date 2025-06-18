@@ -7,14 +7,23 @@ import { connectMongoDB } from '../lib/mongo.js';
 
 import * as cheerio from 'cheerio';
 
-import fs from 'fs';
-
 const router = express.Router();
 
 dotenv.config();
 
 router.get('/', (req, res) => {
-    res.send(`Hello, this is the Webscraping Route`);
+    res.send(`
+        <html>
+            <body>
+                <h1>Webscraping Route</h1>
+                <form method="GET" action="/webscrape/dynss">
+                    <label for="input">Enter a URL or keyword:</label>
+                    <input type="text" id="input" name="url" required />
+                    <button type="submit">Submit</button>
+                </form>
+            </body>
+        </html>
+    `);
 });
 
 router.get('/wft', async (req, res) => {
@@ -127,18 +136,20 @@ router.get('/ss', async (req, res) => {
     }
 });
 
-router.get('/oldss', async (req, res) => {
+router.get('/dynss', async (req, res) => {
     try {
 
-        const { data } = await axios.get(process.env.SS_SCRAPE_URL);
+        const scrapeUrl = req.query.url; // Use the input from the form
+        if (!scrapeUrl) return res.status(400).send("Missing URL parameter.");
 
+        const { data } = await axios.get(scrapeUrl);
         const $ = cheerio.load(data);
 
         const listItemsText = $(".entry-content");
         const listItemsTitle = $(".wp-block-cover__inner-container > div:nth-child(1) > div:nth-child(1)");
 
 
-        //connectMongoDB();
+        connectMongoDB();
 
         let text
         let title
@@ -147,6 +158,10 @@ router.get('/oldss', async (req, res) => {
             text = $(el).children() + "\n";
         });
 
+        text = text.replaceAll('<p', '</br><blockquote')
+        text = text.replaceAll('</p>', '</blockquote></br>')
+        text = text.replaceAll('<p>', '</br><blockquote>')
+
         listItemsTitle.each((idx, el) => {
             title = $(el).children() + "\n";
         });
@@ -154,7 +169,7 @@ router.get('/oldss', async (req, res) => {
         let uploadedData
 
         if (text && title) {
-            //   uploadedData = await SundaySchool.create({ text, title });
+            uploadedData = await SundaySchool.create({ text, title });
         }
 
         console.log("New Data", uploadedData);
