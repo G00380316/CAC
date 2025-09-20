@@ -5,7 +5,7 @@ import { useEffect, useState } from 'react';
 
 const Styles = {
     root: {
-        maxHeight: '80vh',
+        maxHeight: '90vh',
         overflowY: 'scroll',
         '&::-webkit-scrollbar': {
             width: '0.1rem'
@@ -230,7 +230,7 @@ export default function Content({ count }) {
                     />
                     <p
                         dangerouslySetInnerHTML={{ __html: ssText }}
-                        style={{ color: 'black' }} />
+                        style={{ color: 'black', marginBottom: 100 }} />
                 </Stack>
             </Grid>
         </Grid>
