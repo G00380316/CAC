@@ -173,7 +173,7 @@ export default function Content({ count }) {
             <Grid
                 item
                 direction={{ md: 'row' }}
-                xs={9}  // Full width on extra small screens
+                xs={12}  // Full width on extra small screens
                 sm={12}  // Full width on small screens
                 padding={{ sm: 4, xs: 4, md: 1 }}
             >
@@ -219,7 +219,7 @@ export default function Content({ count }) {
             </Grid>
             <Grid
                 item
-                xs={9}
+                xs={12}
                 sm={12}
                 padding={{ sm: 4, xs: 4, md: 1 }}
             >
