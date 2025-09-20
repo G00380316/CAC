@@ -4,7 +4,7 @@
     align-items: center;
     height: 100vh;
     background-color: whitesmoke;
-    overflow-y: hidden;
+    overflow-y: none;
 }
 
 .main nav {

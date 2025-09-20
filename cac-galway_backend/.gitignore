@@ -35,10 +35,3 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
-
-#Storage
-*.json
-question.json
-
-#AI
-agentTest.js

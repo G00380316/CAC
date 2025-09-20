@@ -173,18 +173,18 @@ export default function Content({ count }) {
             <Grid
                 item
                 direction={{ md: 'row' }}
-                xs={12}  // Full width on extra small screens
+                xs={9}  // Full width on extra small screens
                 sm={12}  // Full width on small screens
-                padding={{ sm: 2, xs: 2, md: 1 }}
+                padding={{ sm: 4, xs: 4, md: 1 }}
             >
-                <Stack spacing={1} maxWidth={{ sx: 500, sm: 500, md: 800 }}>
+                <Stack spacing={1} maxWidth={{ sx: 500, sm: 500, md: 800 }} mt={4} justifyContent={'center'} sx={{ wordWrap: "break-word" }}>
                     <Typography startDecorator={<RemoveRedEyeIcon fontSize='inherit' />} alignSelf={'left'}
                         justifySelf={'left'} fontSize={12}
                     >Todays Views: {count}</Typography>
                     <h2
                         dangerouslySetInnerHTML={{ __html: title }}
                         style={{
-                            marginTop: 40,
+                            marginTop: 3,
                             alignSelf: 'center',
                             color: 'black'
                         }} />
@@ -219,14 +219,14 @@ export default function Content({ count }) {
             </Grid>
             <Grid
                 item
-                xs={12}
+                xs={9}
                 sm={12}
                 padding={{ sm: 4, xs: 4, md: 1 }}
             >
-                <Stack spacing={1} maxWidth={{ sx: 500, sm: 500, md: 800 }}>
+                <Stack spacing={1} maxWidth={{ sx: 500, sm: 500, md: 800 }} justifyContent={'center'} sx={{wordWrap:"break-word"}}>
                     <div
                         dangerouslySetInnerHTML={{ __html: ssTitle }}
-                        style={{ color: 'black', marginTop: 40 }}
+                        style={{ color: 'black', marginTop: 20 }}
                     />
                     <p
                         dangerouslySetInnerHTML={{ __html: ssText }}
