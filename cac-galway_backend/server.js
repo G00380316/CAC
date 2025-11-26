@@ -6,6 +6,7 @@ import { connectMongoDB } from "./lib/mongo.js";
 
 //Routes
 import Webscrape from './routes/webscrape.js';
+import Mobile from './routes/mobile.js'
 
 dotenv.config();
 const app = express();
@@ -19,5 +20,6 @@ app.use(bodyParser.json());
 app.get('/', (req, res) => res.send('Welcome to Cac Galway Backend Servers'));
 
 app.use('/webscrape', Webscrape);
+app.use('/mobile', Mobile);
 
 app.listen(PORT, () => console.log(`Server started on port http://localhost:${PORT}`));

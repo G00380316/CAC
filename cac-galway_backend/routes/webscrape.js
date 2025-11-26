@@ -12,7 +12,7 @@ const router = express.Router();
 dotenv.config();
 
 router.get('/', (req, res) => {
-    res.send(`
+  res.send(`
         <html>
             <body>
                 <h1>Webscraping Route</h1>
@@ -27,161 +27,161 @@ router.get('/', (req, res) => {
 });
 
 router.get('/wft', async (req, res) => {
-    try {
+  try {
 
-        const { data } = await axios.get(process.env.WFT_SCRAPE_URL);
+    const { data } = await axios.get(process.env.WFT_SCRAPE_URL);
 
-        const $ = cheerio.load(data);
+    const $ = cheerio.load(data);
 
-        const listItemsText = $("div.field-item.even[property='content:encoded']");
-        const listItemsTitle = $("div.panel-pane.pane-node-title");
-        const listItemsDate = $(".field-name-field-date-time");
-        const listItemsBibleRef = $(".field-name-field-bible-reference");
-        const listItemsByline = $(".field-name-field-byline");
-        const listItemsAudio = $(".field-name-field-podcast");
-
-
-        let text;
-        let title;
-        let date;
-        let bibleRef;
-        let byline;
-        let audio;
-
-        connectMongoDB();
-
-        // Iterate through each list item and extract text
-        listItemsText.each((idx, el) => {
-            text = $(el).children() + "\n\n\n\n";
-        });
-        listItemsTitle.each((idx, el) => {
-            title = $(el).children() + "\n\n\n\n";
-        });
-        listItemsDate.each((idx, el) => {
-            date = $(el).children() + "\n\n\n\n";
-        });
-        listItemsBibleRef.each((idx, el) => {
-            bibleRef = $(el).children() + "\n\n\n\n";
-        });
-        listItemsByline.each((idx, el) => {
-            byline = $(el).children() + "\n\n\n\n";
-        });
-        listItemsAudio.each((idx, el) => {
-            audio = $(el).children() + "\n\n";
-        });
-
-        let uploadedData
-
-        if (text && title && date && bibleRef && byline && audio) {
-            uploadedData = await WFT.create({ text, title, date, bibleRef, byline, audio });
-        }
-
-        console.log("New Data", uploadedData);
+    const listItemsText = $("div.field-item.even[property='content:encoded']");
+    const listItemsTitle = $("div.panel-pane.pane-node-title");
+    const listItemsDate = $(".field-name-field-date-time");
+    const listItemsBibleRef = $(".field-name-field-bible-reference");
+    const listItemsByline = $(".field-name-field-byline");
+    const listItemsAudio = $(".field-name-field-podcast");
 
 
+    let text;
+    let title;
+    let date;
+    let bibleRef;
+    let byline;
+    let audio;
 
-        res.status(201).json({ response: { text, title, date, bibleRef, byline, audio }, message: "Scraping completed successfully!" });
+    connectMongoDB();
 
-    } catch (err) {
+    // Iterate through each list item and extract text
+    listItemsText.each((idx, el) => {
+      text = $(el).children() + "\n\n\n\n";
+    });
+    listItemsTitle.each((idx, el) => {
+      title = $(el).children() + "\n\n\n\n";
+    });
+    listItemsDate.each((idx, el) => {
+      date = $(el).children() + "\n\n\n\n";
+    });
+    listItemsBibleRef.each((idx, el) => {
+      bibleRef = $(el).children() + "\n\n\n\n";
+    });
+    listItemsByline.each((idx, el) => {
+      byline = $(el).children() + "\n\n\n\n";
+    });
+    listItemsAudio.each((idx, el) => {
+      audio = $(el).children() + "\n\n";
+    });
 
-        console.error(err);
-        res.status(500).send("Internal Server Error");
+    let uploadedData
 
+    if (text && title && date && bibleRef && byline && audio) {
+      uploadedData = await WFT.create({ text, title, date, bibleRef, byline, audio });
     }
+
+    console.log("New Data", uploadedData);
+
+
+
+    res.status(201).json({ response: { text, title, date, bibleRef, byline, audio }, message: "Scraping completed successfully!" });
+
+  } catch (err) {
+
+    console.error(err);
+    res.status(500).send("Internal Server Error");
+
+  }
 });
 
 router.get('/ss', async (req, res) => {
-    try {
+  try {
 
-        const { data } = await axios.get(process.env.SS_SCRAPE_URL);
+    const { data } = await axios.get(process.env.SS_SCRAPE_URL);
 
-        const $ = cheerio.load(data);
+    const $ = cheerio.load(data);
 
-        const listItemsText = $(".entry-content");
-        const listItemsTitle = $(".wp-block-cover__inner-container > div:nth-child(1) > div:nth-child(1)");
+    const listItemsText = $(".entry-content");
+    const listItemsTitle = $(".wp-block-cover__inner-container > div:nth-child(1) > div:nth-child(1)");
 
 
-        connectMongoDB();
+    connectMongoDB();
 
-        let text
-        let title
+    let text
+    let title
 
-        listItemsText.each((idx, el) => {
-            text = $(el).children() + "\n";
-        });
+    listItemsText.each((idx, el) => {
+      text = $(el).children() + "\n";
+    });
 
-        text = text.replaceAll('<p', '</br><blockquote')
-        text = text.replaceAll('</p>', '</blockquote></br>')
-        text = text.replaceAll('<p>', '</br><blockquote>')
+    text = text.replaceAll('<p', '</br><blockquote')
+    text = text.replaceAll('</p>', '</blockquote></br>')
+    text = text.replaceAll('<p>', '</br><blockquote>')
 
-        listItemsTitle.each((idx, el) => {
-            title = $(el).children() + "\n";
-        });
+    listItemsTitle.each((idx, el) => {
+      title = $(el).children() + "\n";
+    });
 
-        let uploadedData
+    let uploadedData
 
-        if (text && title) {
-            uploadedData = await SundaySchool.create({ text, title });
-        }
-
-        console.log("New Data", uploadedData);
-
-        res.status(201).json({ response: { text, title }, message: "Scraping completed successfully!" });
-
-    } catch (err) {
-
-        console.error(err);
-        res.status(500).send("Internal Server Error");
-
+    if (text && title) {
+      uploadedData = await SundaySchool.create({ text, title });
     }
+
+    console.log("New Data", uploadedData);
+
+    res.status(201).json({ response: { text, title }, message: "Scraping completed successfully!" });
+
+  } catch (err) {
+
+    console.error(err);
+    res.status(500).send("Internal Server Error");
+
+  }
 });
 
 router.get('/dynss', async (req, res) => {
-    try {
+  try {
 
-        const scrapeUrl = req.query.url; // Use the input from the form
-        if (!scrapeUrl) return res.status(400).send("Missing URL parameter.");
+    const scrapeUrl = req.query.url; // Use the input from the form
+    if (!scrapeUrl) return res.status(400).send("Missing URL parameter.");
 
-        const { data } = await axios.get(scrapeUrl);
-        const $ = cheerio.load(data);
+    const { data } = await axios.get(scrapeUrl);
+    const $ = cheerio.load(data);
 
-        const listItemsText = $(".entry-content");
-        const listItemsTitle = $(".wp-block-cover__inner-container > div:nth-child(1) > div:nth-child(1)");
+    const listItemsText = $(".entry-content");
+    const listItemsTitle = $(".wp-block-cover__inner-container > div:nth-child(1) > div:nth-child(1)");
 
 
-        connectMongoDB();
+    connectMongoDB();
 
-        let text
-        let title
+    let text
+    let title
 
-        listItemsText.each((idx, el) => {
-            text = $(el).children() + "\n";
-        });
+    listItemsText.each((idx, el) => {
+      text = $(el).children() + "\n";
+    });
 
-        text = text.replaceAll('<p', '</br><blockquote')
-        text = text.replaceAll('</p>', '</blockquote></br>')
-        text = text.replaceAll('<p>', '</br><blockquote>')
+    text = text.replaceAll('<p', '</br><blockquote')
+    text = text.replaceAll('</p>', '</blockquote></br>')
+    text = text.replaceAll('<p>', '</br><blockquote>')
 
-        listItemsTitle.each((idx, el) => {
-            title = $(el).children() + "\n";
-        });
+    listItemsTitle.each((idx, el) => {
+      title = $(el).children() + "\n";
+    });
 
-        let uploadedData
+    let uploadedData
 
-        if (text && title) {
-            uploadedData = await SundaySchool.create({ text, title });
-        }
-
-        console.log("New Data", uploadedData);
-
-        res.status(201).json({ response: { text, title }, message: "Scraping completed successfully!" });
-
-    } catch (err) {
-
-        console.error(err);
-        res.status(500).send("Internal Server Error");
-
+    if (text && title) {
+      uploadedData = await SundaySchool.create({ text, title });
     }
+
+    console.log("New Data", uploadedData);
+
+    res.status(201).json({ response: { text, title }, message: "Scraping completed successfully!" });
+
+  } catch (err) {
+
+    console.error(err);
+    res.status(500).send("Internal Server Error");
+
+  }
 });
 
 export default router;
