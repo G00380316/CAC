@@ -1,32 +1,31 @@
-import { Grid, Stack, Typography } from '@mui/joy';
-import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
+import { Grid, Stack, Typography } from "@mui/joy";
+import RemoveRedEyeIcon from "@mui/icons-material/RemoveRedEye";
 import { LoadingButton } from "@mui/lab";
-import { useEffect, useState } from 'react';
+import { useEffect, useState } from "react";
 
 const Styles = {
   root: {
-    maxHeight: '90vh',
-    overflowY: 'scroll',
-    '&::-webkit-scrollbar': {
-      width: '0.1rem'
+    maxHeight: "90vh",
+    overflowY: "scroll",
+    "&::-webkit-scrollbar": {
+      width: "0.1rem",
     },
-    '&::-webkit-scrollbar-thumb': {
-      backgroundColor: 'rgba(0,0,0,0)',
-      borderRadius: '0.25em'
+    "&::-webkit-scrollbar-thumb": {
+      backgroundColor: "rgba(0,0,0,0)",
+      borderRadius: "0.25em",
     },
-    '&::-webkit-scrollbar-track': {
-      backgroundColor: 'transparent', // Make the scrollbar track transparent
+    "&::-webkit-scrollbar-track": {
+      backgroundColor: "transparent", // Make the scrollbar track transparent
     },
-    scrollbarWidth: 'none', // Hides scrollbar in Firefox
-    '-ms-overflow-style': 'none', // Hides scrollbar in older IE/Edge
-    '&::-webkit-scrollbar': {
-      width: '0', // Hides scrollbar in WebKit-based browsers
+    scrollbarWidth: "none", // Hides scrollbar in Firefox
+    "-ms-overflow-style": "none", // Hides scrollbar in older IE/Edge
+    "&::-webkit-scrollbar": {
+      width: "0", // Hides scrollbar in WebKit-based browsers
     },
-  }
+  },
 };
 
 const getDate = () => {
-
   let date_time = new Date();
 
   // get current date
@@ -41,19 +40,17 @@ const getDate = () => {
 
   date_time = year + "-" + month + "-" + date;
 
-  return date_time
-}
+  return date_time;
+};
 
 const getDataDate = (data_date) => {
-
-  const newCreatedAt = data_date.split('T')[0];
+  const newCreatedAt = data_date.split("T")[0];
 
   //console.log("Mongodb", newCreatedAt);
 
   return newCreatedAt;
-}
+};
 export default function Content({ count }) {
-
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [text, setText] = useState("");
@@ -70,10 +67,10 @@ export default function Content({ count }) {
   useEffect(() => {
     const fetchWFTData = async () => {
       try {
-        const response = await fetch('/api/getWFT')
-        const storedData = await response.json()
+        const response = await fetch("/api/getWFT");
+        const storedData = await response.json();
 
-        const currentDataDate = getDataDate(storedData.wft.createdAt)
+        const currentDataDate = getDataDate(storedData.wft.createdAt);
 
         if (currentDate == currentDataDate) {
           setLoading(false);
@@ -84,7 +81,6 @@ export default function Content({ count }) {
           setByline(storedData.wft.byline);
           setAudio(storedData.wft.audio);
         } else {
-
           const res = await fetch(process.env.NEXT_PUBLIC_SCRAPE_WFT);
           const data = await res.json();
 
@@ -108,8 +104,8 @@ export default function Content({ count }) {
 
     const fetchSSData = async () => {
       try {
-        const response = await fetch('/api/getSS')
-        const storedData = await response.json()
+        const response = await fetch("/api/getSS");
+        const storedData = await response.json();
         //console.log(storedData)
 
         if (storedData.sundaySchool) {
@@ -119,7 +115,6 @@ export default function Content({ count }) {
         }
 
         if (!storedData.sundaySchool) {
-
           const res = await fetch(process.env.NEXT_PUBLIC_SCRAPE_SS);
           const data = await res.json();
 
@@ -135,11 +130,9 @@ export default function Content({ count }) {
       }
     };
 
-    fetchWFTData()
-    fetchSSData()
-
-  }, [])
-
+    fetchWFTData();
+    fetchSSData();
+  }, []);
 
   if (loading && !text) {
     return (
@@ -149,15 +142,13 @@ export default function Content({ count }) {
         justifyContent="space-around"
         alignItems="stretch"
       >
-        <Grid>
-        </Grid>
+        <Grid></Grid>
         <Grid>
           <Stack marginTop="35vh" alignItems="center">
-            <LoadingButton loading variant="none" size='large' />
+            <LoadingButton loading variant="none" size="large" />
           </Stack>
         </Grid>
-        <Grid>
-        </Grid>
+        <Grid></Grid>
       </Grid>
     );
   }
@@ -165,75 +156,92 @@ export default function Content({ count }) {
   return (
     <Grid
       container
-      direction={{ xs: 'row', sm: 'row', md: 'row' }}
-      justifyContent={'center'}
+      direction={{ xs: "row", sm: "row", md: "row" }}
+      justifyContent={"center"}
       sx={Styles.root}
       maxWidth={{ sx: 500, sm: 500, md: 800 }}
     >
       <Grid
         item
-        direction={{ md: 'row' }}
-        xs={12}  // Full width on extra small screens
-        sm={12}  // Full width on small screens
+        direction={{ md: "row" }}
+        xs={12} // Full width on extra small screens
+        sm={12} // Full width on small screens
         padding={{ sm: 4, xs: 4, md: 1 }}
       >
-        <Stack spacing={1} maxWidth={{ sx: 500, sm: 500, md: 800 }} mt={4} justifyContent={'center'} sx={{ wordWrap: "break-word" }}>
-          <Typography startDecorator={<RemoveRedEyeIcon fontSize='inherit' />} alignSelf={'left'}
-            justifySelf={'left'} fontSize={12}
-          >Todays Views: {count}</Typography>
+        <Stack
+          spacing={1}
+          maxWidth={{ sx: 500, sm: 500, md: 800 }}
+          mt={4}
+          justifyContent={"center"}
+          sx={{ wordWrap: "break-word" }}
+        >
+          <Typography
+            startDecorator={<RemoveRedEyeIcon fontSize="inherit" />}
+            alignSelf={"left"}
+            justifySelf={"left"}
+            fontSize={12}
+          >
+            Todays Views: {count}
+          </Typography>
           <h2
             dangerouslySetInnerHTML={{ __html: title }}
             style={{
               marginTop: 3,
-              alignSelf: 'center',
-              color: 'black'
-            }} />
+              alignSelf: "center",
+              color: "black",
+            }}
+          />
           <div
             dangerouslySetInnerHTML={{ __html: audio }}
-            style={{ alignSelf: 'center' }}
+            style={{ alignSelf: "center" }}
           />
           <p
             dangerouslySetInnerHTML={{ __html: date }}
             style={{
-              fontSize: 12, alignSelf: 'center', color: 'navy'
-            }} />
+              fontSize: 12,
+              alignSelf: "center",
+              color: "navy",
+            }}
+          />
           <p
             dangerouslySetInnerHTML={{ __html: bibleRef }}
             style={{
-              fontSize: 14, alignSelf: 'center', color: 'black'
-            }} />
+              fontSize: 14,
+              alignSelf: "center",
+              color: "black",
+            }}
+          />
           <p
             dangerouslySetInnerHTML={{ __html: byline }}
             style={{
               fontSize: 14,
-              fontStyle: 'italic',
-              alignSelf: 'center',
-              color: 'blue'
-            }} />
-          <p
-            dangerouslySetInnerHTML={{ __html: text }}
-            style={{}} />
+              fontStyle: "italic",
+              alignSelf: "center",
+              color: "blue",
+            }}
+          />
+          <p dangerouslySetInnerHTML={{ __html: text }} style={{}} />
           <br />
           <br />
         </Stack>
       </Grid>
-      <Grid
-        item
-        xs={12}
-        sm={12}
-        padding={{ sm: 4, xs: 4, md: 1 }}
-      >
-        <Stack spacing={1} maxWidth={{ sx: 500, sm: 500, md: 800 }} justifyContent={'center'} sx={{ wordWrap: "break-word" }}>
+      <Grid item xs={12} sm={12} padding={{ sm: 4, xs: 4, md: 1 }}>
+        <Stack
+          spacing={1}
+          maxWidth={{ sx: 500, sm: 500, md: 800 }}
+          justifyContent={"center"}
+          sx={{ wordWrap: "break-word" }}
+        >
           <div
             dangerouslySetInnerHTML={{ __html: ssTitle }}
-            style={{ color: 'black', marginTop: 20 }}
+            style={{ color: "black", marginTop: 20 }}
           />
           <p
             dangerouslySetInnerHTML={{ __html: ssText }}
-            style={{ color: 'black', marginBottom: 100 }} />
+            style={{ color: "black", marginBottom: 100 }}
+          />
         </Stack>
       </Grid>
     </Grid>
-
-  )
+  );
 }

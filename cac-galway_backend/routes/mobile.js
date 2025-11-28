@@ -1,17 +1,17 @@
-import axios from 'axios';
-import dotenv from 'dotenv';
-import express from 'express';
-import SundaySchool from '../models/ss.js';
-import WFT from '../models/wft.js';
-import { connectMongoDB } from '../lib/mongo.js';
+import axios from "axios";
+import dotenv from "dotenv";
+import express from "express";
+import SundaySchool from "../models/ss.js";
+import WFT from "../models/wft.js";
+import { connectMongoDB } from "../lib/mongo.js";
 
-import * as cheerio from 'cheerio';
+import * as cheerio from "cheerio";
 
 const router = express.Router();
 
 dotenv.config();
 
-router.get('/', (req, res) => {
+router.get("/", (req, res) => {
   res.send(`
         <html>
             <body>
@@ -21,9 +21,8 @@ router.get('/', (req, res) => {
     `);
 });
 
-router.get('/wft', async (req, res) => {
+router.get("/wft", async (req, res) => {
   try {
-
     const { data } = await axios.get(process.env.WFT_SCRAPE_URL);
 
     const $ = cheerio.load(data);
@@ -34,7 +33,6 @@ router.get('/wft', async (req, res) => {
     const listItemsBibleRef = $(".field-name-field-bible-reference");
     const listItemsByline = $(".field-name-field-byline");
     const listItemsAudio = $(".field-name-field-podcast");
-
 
     let text;
     let title;
@@ -65,30 +63,52 @@ router.get('/wft', async (req, res) => {
       audio = $(el).children() + "\n\n";
     });
 
-    let uploadedData
+    let uploadedData;
 
     if (text && title && date && bibleRef && byline && audio) {
       const wft = await WFT.findOne().sort({ createdAt: -1 });
       if (wft.text != text) {
-        uploadedData = await WFT.create({ text, title, date, bibleRef, byline, audio });
-      }
-      else {
-        text = wft.text
-        title = wft.title
-        date = wft.date
-        bibleRef = wft.bibleRef
-        byline = wft.byline
-        audio = wft.audio
+        uploadedData = await WFT.create({
+          text,
+          title,
+          date,
+          bibleRef,
+          byline,
+          audio,
+        });
+      } else {
+        text = wft.text;
+        title = wft.title;
+        date = wft.date;
+        bibleRef = wft.bibleRef;
+        byline = wft.byline;
+        audio = wft.audio;
       }
     }
 
-    res.status(201).json({ response: { text, title, date, bibleRef, byline, audio }, message: "Scraping completed successfully!" });
-
+    res.status(201).json({
+      response: { text, title, date, bibleRef, byline, audio },
+      message: "Scraping completed successfully!",
+    });
   } catch (err) {
-
     console.error(err);
     res.status(500).send("Internal Server Error");
+  }
+});
 
+router.get("/ss", async (req, res) => {
+  connectMongoDB();
+
+  try {
+    const sundaySchool = await SundaySchool.findOne().sort({ createdAt: -1 });
+
+    res.status(201).json({
+      response: { sundaySchool },
+      message: "Successful SundaySchool retrieved",
+    });
+  } catch (err) {
+    console.error(err);
+    res.status(500).send("Internal Server Error");
   }
 });
 
