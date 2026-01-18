@@ -13,7 +13,7 @@ import {
   ListItemContent,
   ListItemDecorator,
 } from "@mui/joy";
-import styles from "./page.module.css";
+import styles from "../../page.module.css";
 import Content from "@/components/Content.js";
 import DehazeIcon from "@mui/icons-material/Dehaze";
 import CloseIcon from "@mui/icons-material/Close";
@@ -275,3 +275,4 @@ export default function Home() {
     </main>
   );
 }
+

@@ -13,7 +13,7 @@ import {
   ListItemContent,
   ListItemDecorator,
 } from "@mui/joy";
-import styles from "./page.module.css";
+import styles from "../../page.module.css";
 import Content from "@/components/Content.js";
 import DehazeIcon from "@mui/icons-material/Dehaze";
 import CloseIcon from "@mui/icons-material/Close";
@@ -52,8 +52,16 @@ const getDataDate = (data_date) => {
 // Navigation items
 const navItems = [
   { text: "Home", icon: <HomeIcon />, path: "/" },
-  { text: "Sunday School Archives", icon: <BookIcon />, path: "/sundayschools" },
-  { text: "Word For Today Archives", icon: <ArticleIcon />, path: "/wordfortodays" },
+  {
+    text: "Sunday School Archives",
+    icon: <BookIcon />,
+    path: "/sundayschools",
+  },
+  {
+    text: "Word For Today Archives",
+    icon: <ArticleIcon />,
+    path: "/wordfortodays",
+  },
 ];
 
 export default function Home() {
