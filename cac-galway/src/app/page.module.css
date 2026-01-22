@@ -1,15 +1,15 @@
 .main {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    height: 100vh;
-    background-color: whitesmoke;
-    overflow-y: none;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	height: 100vh;
+	background-color: whitesmoke;
+	overflow-y: none;
 }
 
 .main nav {
-    background-color: white;
-    box-shadow: 3px 36px 46px -5px rgba(0, 0, 0, 0.48);
-    -webkit-box-shadow: 3px 36px 46px -5px rgba(0, 0, 0, 0.48);
-    -moz-box-shadow: 3px 36px 46px -5px rgba(0, 0, 0, 0.48);
+	background-color: white;
+	box-shadow: 3px 36px 46px -5px rgba(0, 0, 0, 0.48);
+	-webkit-box-shadow: 3px 36px 46px -5px rgba(0, 0, 0, 0.48);
+	-moz-box-shadow: 3px 36px 46px -5px rgba(0, 0, 0, 0.48);
 }

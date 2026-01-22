@@ -13,62 +13,26 @@ import {
 	ListItemContent,
 	ListItemDecorator,
 } from "@mui/joy";
-import styles from "../../page.module.css";
-import WFTContent from "@/components/wftContent.js";
+import styles from "../../../../page.module.css";
+import Content from "@/components/view/selectedWFT";
 import DehazeIcon from "@mui/icons-material/Dehaze";
 import CloseIcon from "@mui/icons-material/Close";
 import HomeIcon from "@mui/icons-material/Home";
 import BookIcon from "@mui/icons-material/Book";
 import ArticleIcon from "@mui/icons-material/Article";
-import { useEffect, useState, useRef } from "react";
+import { useState } from "react";
 import { useRouter, usePathname } from "next/navigation";
 
-const getDate = () => {
-	let date_time = new Date();
-
-	// get current date
-	// adjust 0 before single digit date
-	let date = ("0" + date_time.getDate()).slice(-2);
-
-	// get current month
-	let month = ("0" + (date_time.getMonth() + 1)).slice(-2);
-
-	// get current year
-	let year = date_time.getFullYear();
-
-	date_time = year + "-" + month + "-" + date;
-
-	return date_time;
-};
-
-const getDataDate = (data_date) => {
-	const newCreatedAt = data_date.split("T")[0];
-
-	//console.log("Mongodb", newCreatedAt);
-
-	return newCreatedAt;
-};
 
 // Navigation items
 const navItems = [
 	{ text: "Home", icon: <HomeIcon />, path: "/" },
-	{
-		text: "Sunday School Archives",
-		icon: <BookIcon />,
-		path: "/sundayschools",
-	},
-	{
-		text: "Word For Today Archives",
-		icon: <ArticleIcon />,
-		path: "/wordfortodays",
-	},
+	{ text: "Sunday School Archives", icon: <BookIcon />, path: "/sundayschools" },
+	{ text: "Word For Today Archives", icon: <ArticleIcon />, path: "/wordfortodays" },
 ];
 
-export default function Home() {
-	const [count, setCount] = useState(1);
-	const [error, setError] = useState(null);
+export default function WordForToday({ params }) {
 	const [open, setOpen] = useState(false);
-	const fetchRan = useRef(false);
 	const router = useRouter();
 	const pathname = usePathname();
 
@@ -80,7 +44,6 @@ export default function Home() {
 		window.innerWidth < 1024;
 	const isDesktop = typeof window !== "undefined" && window.innerWidth >= 1024;
 
-	let currentDate = getDate();
 
 	const handleDrawerOpen = () => {
 		setOpen(true);
@@ -95,32 +58,10 @@ export default function Home() {
 		handleDrawerClose();
 	};
 
-	useEffect(() => {
-		const fetchCount = async () => {
-			if (fetchRan.current) return;
-			fetchRan.current = true;
 
-			try {
-				const res = await fetch("/api/updateCount", {
-					method: "POST",
-					headers: {
-						"Content-Type": "application/json",
-					},
-					body: JSON.stringify({ date: currentDate }),
-				});
-				const data = await res.json();
-				// console.log(data)
-				setCount(data.counter.count);
-			} catch (err) {
-				console.error("Fetch Error:", err);
-				setError(true);
-			}
-		};
-
-		fetchCount();
-	}, []);
-
+	// Render different drawer based on screen size
 	const renderDrawer = () => {
+		// Mobile: Drawer from top, menu button becomes close button
 		if (isMobile) {
 			return (
 				<Drawer
@@ -137,13 +78,14 @@ export default function Home() {
 						},
 					}}
 				>
+					{/* Navigation List - No close button, we'll use the menu button */}
 					<List
 						size="lg"
 						sx={{
 							"--ListItemDecorator-size": "56px",
 							"--ListItem-minHeight": "56px",
 							"--List-nestedInsetStart": "15px",
-							mt: 8,
+							mt: 8, // Add margin to account for the transformed button
 						}}
 					>
 						{navItems.map((item) => (
@@ -163,6 +105,7 @@ export default function Home() {
 			);
 		}
 
+		// Tablet/Desktop: Drawer from left with X button
 		return (
 			<Drawer
 				open={open}
@@ -174,12 +117,14 @@ export default function Home() {
 					"--Drawer-verticalSize": "100vh",
 				}}
 			>
+				{/* Close button for tablet/desktop */}
 				<Box sx={{ display: "flex", justifyContent: "flex-end", p: 2 }}>
 					<IconButton onClick={handleDrawerClose} size="sm" variant="outlined">
 						<CloseIcon />
 					</IconButton>
 				</Box>
 
+				{/* Navigation List */}
 				<List
 					size="lg"
 					sx={{
@@ -239,7 +184,9 @@ export default function Home() {
 						CAC Study Material
 					</Typography>
 
+					{/* Menu/Close button - positioned absolutely */}
 					<Box>
+						{/* For mobile: button changes to close icon when drawer is open */}
 						{isMobile ? (
 							<IconButton
 								onClick={open ? handleDrawerClose : handleDrawerOpen}
@@ -256,9 +203,11 @@ export default function Home() {
 								)}
 							</IconButton>
 						) : (
+							// For tablet/desktop: always show menu button
 							<IconButton
 								onClick={handleDrawerOpen}
 								size="lg"
+								sx={open && { display: "none" }}
 							>
 								<DehazeIcon fontSize="large" />
 							</IconButton>
@@ -268,7 +217,7 @@ export default function Home() {
 			</nav>
 
 			<Grid justifyItems={"center"}>
-				<WFTContent />
+				<Content id={params.id} />
 			</Grid>
 		</main>
 	);
