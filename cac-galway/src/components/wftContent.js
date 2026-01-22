@@ -37,7 +37,7 @@ export default function Content() {
 				const response = await fetch("/api/getListWFT");
 				const storedData = await response.json();
 
-				console.log(storedData)
+				// console.log(storedData)
 
 				if (storedData.wordfortodays) {
 					setLoading(false);
@@ -98,7 +98,7 @@ export default function Content() {
 						fontSize={"lg"}
 						fontWeight={800}>
 						Past Word for todays
-			</Typography>
+					</Typography>
 					{WFTlist.map((word) => (
 						<Link
 							key={word._id}

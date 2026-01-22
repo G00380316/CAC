@@ -181,7 +181,7 @@ export default function WordForToday({ params }) {
 						alignSelf={"center"}
 						justifySelf={"center"}
 					>
-						CAC Study Material
+						Christ Apostlic Church Galway
 					</Typography>
 
 					{/* Menu/Close button - positioned absolutely */}

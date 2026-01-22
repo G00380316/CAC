@@ -234,7 +234,7 @@ export default function Home() {
 						alignSelf={"center"}
 						justifySelf={"center"}
 					>
-						CAC Study Material
+						Christ Apostlic Church Galway
 					</Typography>
 
 					<Box>

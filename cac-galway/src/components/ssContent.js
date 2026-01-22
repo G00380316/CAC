@@ -42,7 +42,7 @@ export default function Content() {
 			try {
 				const response = await fetch("/api/getListSS");
 				const storedData = await response.json();
-				console.log(storedData)
+				// console.log(storedData)
 
 				if (storedData.sundaySchools) {
 					setLoading(false);
