@@ -19,9 +19,9 @@ const Styles = {
 			backgroundColor: "transparent", // Make the scrollbar track transparent
 		},
 		scrollbarWidth: "none", // Hides scrollbar in Firefox
-		"-ms-overflow-style": "none", // Hides scrollbar in older IE/Edge
-		"&::-webkit-scrollbar": {
-			width: "0", // Hides scrollbar in WebKit-based browsers
+		msOverflowStyle: "none", // Hides scrollbar in older IE/Edge
+	"&::-webkit-scrollbar": {
+	width: "0", // Hides scrollbar in WebKit-based browsers
 		},
 	},
 };
@@ -89,7 +89,6 @@ export default function Content({ id }) {
 			maxWidth={{ sx: 500, sm: 500, md: 800 }}
 		>
 			<Grid
-				item
 				direction={{ md: "row" }}
 				xs={12} // Full width on extra small screens
 				sm={12} // Full width on small screens
@@ -99,6 +98,7 @@ export default function Content({ id }) {
 					spacing={1}
 					maxWidth={{ sx: 500, sm: 500, md: 800 }}
 					mt={4}
+					mb={20}
 					justifyContent={"center"}
 					sx={{ wordWrap: "break-word" }}
 				>

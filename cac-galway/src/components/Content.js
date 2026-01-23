@@ -18,38 +18,21 @@ const Styles = {
 			backgroundColor: "transparent", // Make the scrollbar track transparent
 		},
 		scrollbarWidth: "none", // Hides scrollbar in Firefox
-		"-ms-overflow-style": "none", // Hides scrollbar in older IE/Edge
+		msOverflowStyle: "none", // Hides scrollbar in older IE/Edge
 		"&::-webkit-scrollbar": {
 			width: "0", // Hides scrollbar in WebKit-based browsers
 		},
 	},
 };
 
-const getDate = () => {
-	let date_time = new Date();
+// const getDataDate = (data_date) => {
+// 	const newCreatedAt = data_date.split("T")[0];
+//
+// 	//console.log("Mongodb", newCreatedAt);
+//
+// 	return newCreatedAt;
+// };
 
-	// get current date
-	// adjust 0 before single digit date
-	let date = ("0" + date_time.getDate()).slice(-2);
-
-	// get current month
-	let month = ("0" + (date_time.getMonth() + 1)).slice(-2);
-
-	// get current year
-	let year = date_time.getFullYear();
-
-	date_time = year + "-" + month + "-" + date;
-
-	return date_time;
-};
-
-const getDataDate = (data_date) => {
-	const newCreatedAt = data_date.split("T")[0];
-
-	//console.log("Mongodb", newCreatedAt);
-
-	return newCreatedAt;
-};
 export default function Content({ count }) {
 	const [loading, setLoading] = useState(true);
 	const [error, setError] = useState(null);
@@ -62,17 +45,14 @@ export default function Content({ count }) {
 	const [byline, setByline] = useState("");
 	const [audio, setAudio] = useState(null);
 
-	let currentDate = getDate();
-
 	useEffect(() => {
 		const fetchWFTData = async () => {
 			try {
-				const response = await fetch("/api/getWFT");
-				const storedData = await response.json();
+				const res = await fetch(process.env.NEXT_PUBLIC_SCRAPE_WFT);
+				if (!res.ok) {
+					const response = await fetch("/api/getWFT");
+					const storedData = await response.json();
 
-				const currentDataDate = getDataDate(storedData.wft.createdAt);
-
-				if (currentDate == currentDataDate) {
 					setLoading(false);
 					setText(storedData.wft.text);
 					setTitle(storedData.wft.title);
@@ -80,21 +60,28 @@ export default function Content({ count }) {
 					setbibleRef(storedData.wft.bibleRef);
 					setByline(storedData.wft.byline);
 					setAudio(storedData.wft.audio);
+				}
+				const data = await res.json();
+
+				if (data?.response) {
+					setLoading(false);
+					setText(data.response.text);
+					setTitle(data.response.title);
+					setDate(data.response.date);
+					setbibleRef(data.response.bibleRef);
+					setByline(data.response.byline);
+					setAudio(data.response.audio);
 				} else {
-					const res = await fetch(process.env.NEXT_PUBLIC_SCRAPE_WFT);
-					const data = await res.json();
+					const response = await fetch("/api/getWFT");
+					const storedData = await response.json();
 
-					//console.log("Here", data)
-
-					if (res.ok) {
-						setLoading(false);
-						setText(data.response.text);
-						setTitle(data.response.title);
-						setDate(data.response.date);
-						setbibleRef(data.response.bibleRef);
-						setByline(data.response.byline);
-						setAudio(data.response.audio);
-					}
+					setLoading(false);
+					setText(storedData.wft.text);
+					setTitle(storedData.wft.title);
+					setDate(storedData.wft.date);
+					setbibleRef(storedData.wft.bibleRef);
+					setByline(storedData.wft.byline);
+					setAudio(storedData.wft.audio);
 				}
 			} catch (err) {
 				//console.error("Fetch Error:", err);
@@ -162,7 +149,6 @@ export default function Content({ count }) {
 			maxWidth={{ sx: 500, sm: 500, md: 800 }}
 		>
 			<Grid
-				item
 				direction={{ md: "row" }}
 				xs={12} // Full width on extra small screens
 				sm={12} // Full width on small screens
@@ -225,7 +211,7 @@ export default function Content({ count }) {
 					<br />
 				</Stack>
 			</Grid>
-			<Grid item xs={12} sm={12} padding={{ sm: 4, xs: 4, md: 1 }}>
+			<Grid xs={12} sm={12} padding={{ sm: 4, xs: 4, md: 1 }}>
 				<Stack
 					spacing={1}
 					maxWidth={{ sx: 500, sm: 500, md: 800 }}

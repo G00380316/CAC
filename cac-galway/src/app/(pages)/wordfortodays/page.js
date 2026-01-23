@@ -14,7 +14,7 @@ import {
 	ListItemDecorator,
 } from "@mui/joy";
 import styles from "../../page.module.css";
-import WFTContent from "@/components/wftContent.js";
+import WFTContent from "@/components/list/wftContent.js";
 import DehazeIcon from "@mui/icons-material/Dehaze";
 import CloseIcon from "@mui/icons-material/Close";
 import HomeIcon from "@mui/icons-material/Home";

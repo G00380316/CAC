@@ -1,7 +1,7 @@
 import { Grid, Stack, Typography } from "@mui/joy";
 import { LoadingButton } from "@mui/lab";
-import { useEffect, useState } from "react";
 import Link from "next/link";
+import { useEffect, useState } from "react";
 
 const Styles = {
 	root: {
@@ -18,48 +18,46 @@ const Styles = {
 			backgroundColor: "transparent", // Make the scrollbar track transparent
 		},
 		scrollbarWidth: "none", // Hides scrollbar in Firefox
-		"-ms-overflow-style": "none", // Hides scrollbar in older IE/Edge
-		"&::-webkit-scrollbar": {
-			width: "0", // Hides scrollbar in WebKit-based browsers
+		msOverflowStyle: "none", // Hides scrollbar in older IE/Edge
+	"&::-webkit-scrollbar": {
+	width: "0", // Hides scrollbar in WebKit-based browsers
 		},
 	},
+};
+
+const htmlToText = (html) => {
+	if (typeof window === "undefined") return html;
+	const div = document.createElement("div");
+	div.innerHTML = html;
+	return div.textContent || div.innerText || "";
 };
 
 export default function Content() {
 	const [loading, setLoading] = useState(true);
 	const [error, setError] = useState(null);
-	const [WFTlist, setList] = useState([]);
-
+	const [SSlist, setList] = useState([]);
 
 	useEffect(() => {
-		const fetchWFTData = async () => {
+		const fetchSSList = async () => {
 			try {
-				const response = await fetch("/api/getListWFT");
+				const response = await fetch("/api/getListSS");
 				const storedData = await response.json();
-
 				// console.log(storedData)
 
-				if (storedData.wordfortodays) {
+				if (storedData.sundaySchools) {
 					setLoading(false);
-					setList(storedData.wordfortodays);
+					setList(storedData.sundaySchools);
 				}
 			} catch (err) {
-				//console.error("Fetch Error:", err);
+				console.error("Fetch Error:", err);
 				setError(true);
 			}
 		};
 
-		fetchWFTData();
+		fetchSSList();
 	}, []);
 
-	const htmlToText = (html) => {
-		if (typeof window === "undefined") return html;
-		const div = document.createElement("div");
-		div.innerHTML = html;
-		return div.textContent || div.innerText || "";
-	};
-
-	if (loading && !WFTlist) {
+	if (loading && !SSlist) {
 		return (
 			<Grid
 				container
@@ -97,12 +95,13 @@ export default function Content() {
 						variant="h1"
 						fontSize={"lg"}
 						fontWeight={800}>
-						Past Word for todays
+						Past Sunday Schools
 					</Typography>
-					{WFTlist.map((word) => (
+
+					{SSlist.map((sunday) => (
 						<Link
-							key={word._id}
-							href={`/wordfortodays/wft/${word._id}`}
+							key={sunday._id}
+							href={`/sundayschools/ss/${sunday._id}`}
 							style={{ textDecoration: "none", marginTop: 15 }}
 						>
 							<Typography
@@ -112,7 +111,7 @@ export default function Content() {
 									"&:hover": { textDecoration: "underline" },
 								}}
 							>
-								{htmlToText(word.date)} - {htmlToText(word.title)}
+								{htmlToText(sunday.title)}
 							</Typography>
 						</Link>
 					))}

@@ -1,7 +1,7 @@
 import { Grid, Stack, Typography } from "@mui/joy";
 import { LoadingButton } from "@mui/lab";
-import Link from "next/link";
 import { useEffect, useState } from "react";
+import Link from "next/link";
 
 const Styles = {
 	root: {
@@ -18,46 +18,48 @@ const Styles = {
 			backgroundColor: "transparent", // Make the scrollbar track transparent
 		},
 		scrollbarWidth: "none", // Hides scrollbar in Firefox
-		"-ms-overflow-style": "none", // Hides scrollbar in older IE/Edge
+		msOverflowStyle: "none", // Hides scrollbar in older IE/Edge
 		"&::-webkit-scrollbar": {
 			width: "0", // Hides scrollbar in WebKit-based browsers
 		},
 	},
 };
 
-const htmlToText = (html) => {
-	if (typeof window === "undefined") return html;
-	const div = document.createElement("div");
-	div.innerHTML = html;
-	return div.textContent || div.innerText || "";
-};
-
 export default function Content() {
 	const [loading, setLoading] = useState(true);
 	const [error, setError] = useState(null);
-	const [SSlist, setList] = useState([]);
+	const [WFTlist, setList] = useState([]);
+
 
 	useEffect(() => {
-		const fetchSSList = async () => {
+		const fetchWFTData = async () => {
 			try {
-				const response = await fetch("/api/getListSS");
+				const response = await fetch("/api/getListWFT");
 				const storedData = await response.json();
+
 				// console.log(storedData)
 
-				if (storedData.sundaySchools) {
+				if (storedData.wordfortodays) {
 					setLoading(false);
-					setList(storedData.sundaySchools);
+					setList(storedData.wordfortodays);
 				}
 			} catch (err) {
-				console.error("Fetch Error:", err);
+				//console.error("Fetch Error:", err);
 				setError(true);
 			}
 		};
 
-		fetchSSList();
+		fetchWFTData();
 	}, []);
 
-	if (loading && !SSlist) {
+	const htmlToText = (html) => {
+		if (typeof window === "undefined") return html;
+		const div = document.createElement("div");
+		div.innerHTML = html;
+		return div.textContent || div.innerText || "";
+	};
+
+	if (loading && !WFTlist) {
 		return (
 			<Grid
 				container
@@ -95,13 +97,12 @@ export default function Content() {
 						variant="h1"
 						fontSize={"lg"}
 						fontWeight={800}>
-						Past Sunday Schools
+						Past Word for todays
 					</Typography>
-
-					{SSlist.map((sunday) => (
+					{WFTlist.map((word) => (
 						<Link
-							key={sunday._id}
-							href={`/sundayschools/ss/${sunday._id}`}
+							key={word._id}
+							href={`/wordfortodays/wft/${word._id}`}
 							style={{ textDecoration: "none", marginTop: 15 }}
 						>
 							<Typography
@@ -111,7 +112,7 @@ export default function Content() {
 									"&:hover": { textDecoration: "underline" },
 								}}
 							>
-								{htmlToText(sunday.title)}
+								{htmlToText(word.date)} - {htmlToText(word.title)}
 							</Typography>
 						</Link>
 					))}

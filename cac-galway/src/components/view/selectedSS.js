@@ -18,9 +18,9 @@ const Styles = {
 			backgroundColor: "transparent", // Make the scrollbar track transparent
 		},
 		scrollbarWidth: "none", // Hides scrollbar in Firefox
-		"-ms-overflow-style": "none", // Hides scrollbar in older IE/Edge
-		"&::-webkit-scrollbar": {
-			width: "0", // Hides scrollbar in WebKit-based browsers
+		msOverflowStyle: "none", // Hides scrollbar in older IE/Edge
+	"&::-webkit-scrollbar": {
+	width: "0", // Hides scrollbar in WebKit-based browsers
 		},
 	},
 };

@@ -14,7 +14,7 @@ import {
 	ListItemDecorator,
 } from "@mui/joy";
 import styles from "../../page.module.css";
-import Content from "@/components/ssContent.js";
+import Content from "@/components/list/ssContent.js";
 import DehazeIcon from "@mui/icons-material/Dehaze";
 import CloseIcon from "@mui/icons-material/Close";
 import HomeIcon from "@mui/icons-material/Home";

@@ -20,7 +20,7 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
     return (
-        <html lang="en">
+        <html lang="en" suppressHydrationWarning>
             <meta name="google-site-verification" content="my7UK0FAQRjPV1v8QnMxdgr8OSCnO5hjqFyce-hNSig" />
             <body className={inter.className}>{children}</body>
             <Analytics />
