@@ -1,7 +1,7 @@
 {
   "crons": [
     {
-      "path": "/api/cron/webscrape",
+      "path": "/api/cron",
       "schedule": "0 6 * * *"
     }
   ]
