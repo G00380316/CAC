@@ -6,6 +6,9 @@ const nextConfig = {
         }
         return config;
     },
+    experimental: {
+    serverComponentsExternalPackages: ['undici', 'cheerio'],
+  },
 }
 
 module.exports = nextConfig
