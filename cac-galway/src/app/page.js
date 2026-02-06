@@ -61,7 +61,10 @@ export default function Home() {
     useEffect(() => {
         const fetchCount = async () => {
             try {
-                const res = await fetch("/api/track-dau", { method: "POST" });
+                const res = await fetch("/api/track-dau", {
+                    method: "POST", headers: {
+                        'Authorization': `Bearer ${process.env.NEXT_PUBLIC_SECRET}`,}
+                    });
 
                 const data = await res.json();
 

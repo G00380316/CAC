@@ -24,31 +24,6 @@ import { useEffect, useState, useRef } from "react";
 import { useRouter, usePathname } from "next/navigation";
 import Link from "next/link";
 
-const getDate = () => {
-    let date_time = new Date();
-
-    // get current date
-    // adjust 0 before single digit date
-    let date = ("0" + date_time.getDate()).slice(-2);
-
-    // get current month
-    let month = ("0" + (date_time.getMonth() + 1)).slice(-2);
-
-    // get current year
-    let year = date_time.getFullYear();
-
-    date_time = year + "-" + month + "-" + date;
-
-    return date_time;
-};
-
-const getDataDate = (data_date) => {
-    const newCreatedAt = data_date.split("T")[0];
-
-    //console.log("Mongodb", newCreatedAt);
-
-    return newCreatedAt;
-};
 
 // Navigation items
 const navItems = [
@@ -67,9 +42,7 @@ const navItems = [
 
 export default function Home() {
     const [count, setCount] = useState(1);
-    const [error, setError] = useState(null);
     const [open, setOpen] = useState(false);
-    const fetchRan = useRef(false);
     const router = useRouter();
     const pathname = usePathname();
 
@@ -81,7 +54,6 @@ export default function Home() {
         window.innerWidth < 1024;
     const isDesktop = typeof window !== "undefined" && window.innerWidth >= 1024;
 
-    let currentDate = getDate();
 
     const handleDrawerOpen = () => {
         setOpen(true);
@@ -98,24 +70,21 @@ export default function Home() {
 
     useEffect(() => {
         const fetchCount = async () => {
-            if (fetchRan.current) return;
-            fetchRan.current = true;
-
             try {
-                const res = await fetch("/api/updateCount", {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json",
+                const res = await fetch("/api/track-dau", {
+                    method: "POST", headers: {
                         'Authorization': `Bearer ${process.env.NEXT_PUBLIC_SECRET}`,
-                    },
-                    body: JSON.stringify({ date: currentDate }),
+                    }
                 });
+
                 const data = await res.json();
-                // console.log(data)
-                setCount(data.counter.count);
+
+                if (data.count !== undefined) {
+                    setCount(data.count);
+                }
+
             } catch (err) {
-                console.error("Fetch Error:", err);
-                setError(true);
+                console.error("Error tracking DAU:", err);
             }
         };
 
