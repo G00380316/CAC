@@ -48,9 +48,18 @@ export default function Content({ count }) {
     useEffect(() => {
         const fetchWFTData = async () => {
             try {
-                const res = await fetch("/api/webscrape/wft");
+                const res = await fetch("/api/webscrape/wft", {
+                    headers: {
+                        'Authorization': `Bearer ${process.env.NEXT_PUBLIC_SECRET}`,
+                    }
+                });
                 if (!res.ok) {
-                    const response = await fetch("/api/getWFT");
+                    const response = await fetch("/api/getWFT", {
+                        headers: {
+                            'Authorization': `Bearer ${process.env.NEXT_PUBLIC_SECRET}`,
+                        }
+                    }
+                    );
                     const storedData = await response.json();
 
                     setLoading(false);
@@ -72,7 +81,11 @@ export default function Content({ count }) {
                     setByline(data.response.byline);
                     setAudio(data.response.audio);
                 } else {
-                    const response = await fetch("/api/getWFT");
+                    const response = await fetch("/api/getWFT", {
+                        headers: {
+                            'Authorization': `Bearer ${process.env.NEXT_PUBLIC_SECRET}`,
+                        }
+                    });
                     const storedData = await response.json();
 
                     setLoading(false);
@@ -91,7 +104,11 @@ export default function Content({ count }) {
 
         const fetchSSData = async () => {
             try {
-                const response = await fetch("/api/getSS");
+                const response = await fetch("/api/getSS", {
+                    headers: {
+                        'Authorization': `Bearer ${process.env.NEXT_PUBLIC_SECRET}`,
+                    }
+                });
                 const storedData = await response.json();
                 //console.log(storedData)
 
@@ -102,7 +119,11 @@ export default function Content({ count }) {
                 }
 
                 if (!storedData.sundaySchool) {
-                    const res = await fetch("/api/webscrape/ss");
+                    const res = await fetch("/api/webscrape/ss", {
+                        headers: {
+                            'Authorization': `Bearer ${process.env.NEXT_PUBLIC_SECRET}`,
+                        }
+                    });
                     const data = await res.json();
 
                     if (res.ok) {

@@ -40,7 +40,11 @@ export default function Content({ id }) {
     useEffect(() => {
         const fetchSSData = async () => {
             try {
-                const response = await fetch(`/api/getWFTbyId/${id}`);
+                const response = await fetch(`/api/getWFTbyId/${id}`, {
+                        headers: {
+                            'Authorization': `Bearer ${process.env.NEXT_PUBLIC_SECRET}`,
+                        }
+                    });
                 const storedData = await response.json();
 
                 if (storedData.wordfortoday) {

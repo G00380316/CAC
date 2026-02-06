@@ -35,7 +35,11 @@ export default function Content({ id }) {
     useEffect(() => {
         const fetchSSData = async () => {
             try {
-                const response = await fetch(`/api/getSSbyId/${id}`);
+                const response = await fetch(`/api/getSSbyId/${id}`, {
+                        headers: {
+                            'Authorization': `Bearer ${process.env.NEXT_PUBLIC_SECRET}`,
+                        }
+                    });
                 const storedData = await response.json();
 
                 if (storedData.sundaySchool) {

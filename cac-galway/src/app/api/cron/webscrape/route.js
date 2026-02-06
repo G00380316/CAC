@@ -10,7 +10,11 @@ export async function GET(req) {
     }
 
     try {
-        const response = await fetch("/api/webscrape/wft");
+        const response = await fetch("/api/webscrape/wft", {
+            headers: {
+                'Authorization': `Bearer ${process.env.CRON_SECRET}`,
+            }
+        });
 
         if (!response.ok) {
             throw new Error(`Fetch failed with status: ${response.status}`);

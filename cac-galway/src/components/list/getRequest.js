@@ -40,7 +40,11 @@ export default function Content() {
     useEffect(() => {
         const fetchSSList = async () => {
             try {
-                const response = await fetch("/api/getListSS");
+                const response = await fetch("/api/getListSS", {
+                        headers: {
+                            'Authorization': `Bearer ${process.env.NEXT_PUBLIC_SECRET}`,
+                        }
+                    });
                 const storedData = await response.json();
                 // console.log(storedData)
 

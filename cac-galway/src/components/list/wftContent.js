@@ -34,7 +34,11 @@ export default function Content() {
     useEffect(() => {
         const fetchWFTData = async () => {
             try {
-                const response = await fetch("/api/getListWFT");
+                const response = await fetch("/api/getListWFT", {
+                        headers: {
+                            'Authorization': `Bearer ${process.env.NEXT_PUBLIC_SECRET}`,
+                        }
+                    });
                 const storedData = await response.json();
 
                 // console.log(storedData)
