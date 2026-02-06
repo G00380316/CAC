@@ -41,7 +41,6 @@ const navItems = [
 ];
 
 export default function Home() {
-    const [count, setCount] = useState(1);
     const [open, setOpen] = useState(false);
     const router = useRouter();
     const pathname = usePathname();
@@ -67,29 +66,6 @@ export default function Home() {
         router.push(path);
         handleDrawerClose();
     };
-
-    useEffect(() => {
-        const fetchCount = async () => {
-            try {
-                const res = await fetch("/api/track-dau", {
-                    method: "POST", headers: {
-                        'Authorization': `Bearer ${process.env.NEXT_PUBLIC_SECRET}`,
-                    }
-                });
-
-                const data = await res.json();
-
-                if (data.count !== undefined) {
-                    setCount(data.count);
-                }
-
-            } catch (err) {
-                console.error("Error tracking DAU:", err);
-            }
-        };
-
-        fetchCount();
-    }, []);
 
     const renderDrawer = () => {
         if (isMobile) {

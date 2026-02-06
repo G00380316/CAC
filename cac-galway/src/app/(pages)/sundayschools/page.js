@@ -20,7 +20,7 @@ import CloseIcon from "@mui/icons-material/Close";
 import HomeIcon from "@mui/icons-material/Home";
 import BookIcon from "@mui/icons-material/Book";
 import ArticleIcon from "@mui/icons-material/Article";
-import { useEffect, useState, useRef } from "react";
+import { useState } from "react";
 import { useRouter, usePathname } from "next/navigation";
 import Link from "next/link";
 
@@ -57,29 +57,6 @@ export default function Home() {
         router.push(path);
         handleDrawerClose();
     };
-
-    useEffect(() => {
-        const fetchCount = async () => {
-            try {
-                const res = await fetch("/api/track-dau", {
-                    method: "POST", headers: {
-                        'Authorization': `Bearer ${process.env.NEXT_PUBLIC_SECRET}`,
-                    }
-                });
-
-                const data = await res.json();
-
-                if (data.count !== undefined) {
-                    setCount(data.count);
-                }
-
-            } catch (err) {
-                console.error("Error tracking DAU:", err);
-            }
-        };
-
-        fetchCount();
-    }, []);
 
     // Render different drawer based on screen size
     const renderDrawer = () => {
