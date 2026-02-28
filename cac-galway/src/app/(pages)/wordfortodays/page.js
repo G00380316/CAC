@@ -20,7 +20,7 @@ import CloseIcon from "@mui/icons-material/Close";
 import HomeIcon from "@mui/icons-material/Home";
 import BookIcon from "@mui/icons-material/Book";
 import ArticleIcon from "@mui/icons-material/Article";
-import { useEffect, useState, useRef } from "react";
+import { useState } from "react";
 import { useRouter, usePathname } from "next/navigation";
 import Link from "next/link";
 
