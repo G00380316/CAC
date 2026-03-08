@@ -3,6 +3,10 @@
     {
       "path": "/api/cron/webscrape",
       "schedule": "0 6 * * *"
+    },
+    {
+      "path": "/api/cron/webscrape/ss",
+      "schedule": "0 2 * * 0"
     }
   ]
 }

@@ -118,20 +118,6 @@ export default function Content({ count }) {
                     setssTitle(storedData.sundaySchool.title);
                 }
 
-                if (!storedData.sundaySchool) {
-                    const res = await fetch("/api/webscrape/ss", {
-                        headers: {
-                            'Authorization': `Bearer ${process.env.NEXT_PUBLIC_SECRET}`,
-                        }
-                    });
-                    const data = await res.json();
-
-                    if (res.ok) {
-                        setLoading(false);
-                        setssText(data.response.text);
-                        setssTitle(data.response.title);
-                    }
-                }
             } catch (err) {
                 console.error("Fetch Error:", err);
                 setError(true);

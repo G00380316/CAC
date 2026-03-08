@@ -1,9 +1,8 @@
-
 import { NextResponse } from "next/server";
 import * as cheerio from 'cheerio';
 import axios from "axios";
-import SundaySchool from "@/models/ss";
 import { connectMongoDB } from "@/lib/mongo";
+import SundaySchool from "@/models/ss";
 
 export const dynamic = 'force-dynamic';
 
@@ -14,10 +13,26 @@ export async function GET(req) {
         return new Response('Unauthorized', { status: 401 });
     }
 
-    try {
-        const { data } = await axios.get(process.env.NEXT_PUBLIC_SS_URL);
 
-        const $ = cheerio.load(data);
+    try {
+        const { data: blogData } = await axios.get(process.env.NEXT_PUBLIC_SS_BLOG_URL);
+
+        let $ = cheerio.load(blogData)
+
+        const ListBlogs = $('.wp-block-post-title a[href]');
+
+        let blogs = []
+
+        ListBlogs.each((idx, el) => {
+            blogs.push($(el).attr('href'))
+        });
+
+        blogs = blogs.reverse()
+        const latestBlogUrl = blogs.pop()
+
+        const { data } = await axios.get(latestBlogUrl);
+
+        $ = cheerio.load(data);
 
         const listItemsText = $(".entry-content");
         const listItemsTitle = $(".wp-block-cover__inner-container > div:nth-child(1) > div:nth-child(1)");
